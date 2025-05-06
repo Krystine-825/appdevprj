@@ -11,8 +11,6 @@
 ![Example Image](screenshots/2-2.png) <br>
 ![Example Image](screenshots/3-3.png) <br>
 ![Example Image](screenshots/4-4.png) <br>
-![Example Image](screenshots/5-5.png) <br>
-![Example Image](screenshots/6-6.png) <br>
 ![Example Image](screenshots/7.png) <br>
 ![Example Image](screenshots/8.png) <br>
 
