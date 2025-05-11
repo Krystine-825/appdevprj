@@ -2,6 +2,7 @@ package com.SpringBootMVC.ExpensesTracker.controller;
 
 import com.SpringBootMVC.ExpensesTracker.DTO.ExpenseDTO;
 import com.SpringBootMVC.ExpensesTracker.DTO.FilterDTO;
+import com.SpringBootMVC.ExpensesTracker.entity.Category;
 import com.SpringBootMVC.ExpensesTracker.entity.Client;
 import com.SpringBootMVC.ExpensesTracker.entity.Expense;
 import com.SpringBootMVC.ExpensesTracker.service.CategoryService;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -54,41 +57,60 @@ public class MainController {
     }
 
     @GetMapping("/list")
-    public String list(Model model, HttpSession session){
+    public String list(Model model, HttpSession session) {
         Client client = (Client) session.getAttribute("client");
         int clientId = client.getId();
         List<Expense> expenseList = expenseService.findAllExpensesByClientId(clientId);
-        for (Expense expense : expenseList){
-            expense.setCategoryName(categoryService.findCategoryById(expense.getCategory().getId()).getName());
-            expense.setDate(LocalDateTime.parse(expense.getDateTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME).toLocalDate().toString());
-            expense.setTime(LocalDateTime.parse(expense.getDateTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME).toLocalTime().toString());
+
+        for (Expense expense : expenseList) {
+            if (expense.getCategory() != null) {
+                expense.setCategoryName(expense.getCategory().getName());
+            } else {
+                expense.setCategoryName("Unknown Category"); // This indicates a problem
+            }
         }
+
         model.addAttribute("expenseList", expenseList);
         model.addAttribute("filter", new FilterDTO());
         return "list-page";
     }
 
     @GetMapping("/showUpdate")
-    public String showUpdate(@RequestParam("expId") int id, Model model){
+    public String showUpdate(@RequestParam("expId") int id, Model model) {
         Expense expense = expenseService.findExpenseById(id);
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setAmount(expense.getAmount());
-        expenseDTO.setCategory(expense.getCategory().getName());
-        expenseDTO.setDescription(expense.getDescription());
         expenseDTO.setDateTime(expense.getDateTime());
-
+        expenseDTO.setDescription(expense.getDescription());
+        if (expense.getCategory() != null) {
+            expenseDTO.setCategory(expense.getCategory().getName());
+        } else {
+            expenseDTO.setCategory("Unknown Category"); // This should not happen if the category is set correctly
+        }
         model.addAttribute("expense", expenseDTO);
         model.addAttribute("expenseId", id);
         return "update-page";
     }
 
     @PostMapping("/submitUpdate")
-    public String update(@RequestParam("expId") int id, @ModelAttribute("expense") ExpenseDTO expenseDTO, HttpSession session){
+    public String update(@RequestParam("expId") int id,
+                         @ModelAttribute("expense") ExpenseDTO expenseDTO,
+                         HttpSession session,
+                         RedirectAttributes redirectAttributes) {
         Client client = (Client) session.getAttribute("client");
         expenseDTO.setExpenseId(id);
         expenseDTO.setClientId(client.getId());
-        expenseService.update(expenseDTO);
-        return "redirect:/list";
+
+        // Retrieve the category based on the selected name
+        Category category = categoryService.findCategoryByName(expenseDTO.getCategory());
+        if (category != null) {
+            expenseService.update(expenseDTO);
+            return "redirect:/list"; // Redirect to the list page on success
+        } else {
+            // Set an error message and redirect back to the update page
+            redirectAttributes.addFlashAttribute("errorMessage", "Selected category not found. Please select a valid category.");
+            return "redirect:/showUpdate?expId=" + id; // Redirect back to the update page with the expense ID
+        }
     }
 
     @GetMapping("/delete")

@@ -27,7 +27,7 @@ public class Expense {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id")
-    Category category;
+    private Category category;
 
     public Expense() {
     }
