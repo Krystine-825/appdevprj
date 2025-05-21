@@ -4,12 +4,15 @@ import com.SpringBootMVC.ExpensesTracker.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -37,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/showRegistrationForm").permitAll()
                         .requestMatchers("/processRegistration").permitAll()
                         .anyRequest().authenticated())
+                .oauth2Login(Customizer.withDefaults())
                 .formLogin(form ->
                         form
                                 .loginPage("/showLoginPage")
@@ -47,7 +51,8 @@ public class SecurityConfig {
                         logout
                                 .permitAll()
                                 .logoutUrl("/logout")
-                                .logoutSuccessUrl("/showLoginPage"));
+                                .logoutSuccessUrl("/showLoginPage"))
+        ;
         return http.build();
     }
 
