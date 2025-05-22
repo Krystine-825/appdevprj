@@ -46,7 +46,7 @@ jobs:
 
     - name: Login to ArgoCD
       run: |
-        argocd login 35.240.211.197 --username admin --password admin --insecure
+        argocd login 35.240.211.197 --username admin --password 2RGYwoGp4B4naQE --insecure
 
     - name: Sync ArgoCD Application
       run: |
