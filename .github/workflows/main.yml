@@ -57,8 +57,4 @@ jobs:
 
     - name: Sync ArgoCD Application
       run: |
-        argocd app sync web --force
-
-    - name: Delete Old Pod Running ArgoCD Application
-      run: |
-        kubectl get pods -n web-space --field-selector=status.phase=Running -o name | xargs kubectl delete -n web-space
+        argocd app sync web --force --prune
