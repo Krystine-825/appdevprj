@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: krystine825/expense_tracker:latest4
+          image: krystine825/expense_tracker:latest5
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
