@@ -4,8 +4,7 @@
 ![Example Image](screenshots/2-2.png) <br>
 ![Example Image](screenshots/3-3.png) <br>
 ![Example Image](screenshots/4-4.png) <br>
-![Example Image](screenshots/7.png) <br>
-![Example Image](screenshots/8.png) <br>
+![image](https://github.com/user-attachments/assets/4aac3a32-c22e-45ee-8494-574befd99219) <br>
 
 
 
