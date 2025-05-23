@@ -30,14 +30,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag krystine825/expense_tracker:latest3
+      run: docker build . --file Dockerfile --tag krystine825/expense_tracker:latest4
 
     - name: Login to Docker Hub
       run: echo "dckr_pat_u3CM_bQu_Qp4yZbJg8jcD0qWYSM" | docker login -u krystine825 --password-stdin
 
 
     - name: Push to the Docker Hub
-      run: docker push krystine825/expense_tracker:latest3
+      run: docker push krystine825/expense_tracker:latest4
   
   deploy:
     runs-on: ubuntu-latest
@@ -58,3 +58,7 @@ jobs:
     - name: Sync ArgoCD Application
       run: |
         argocd app sync web --force
+
+    - name: Delete Old Pod Running ArgoCD Application
+      run: |
+        kubectl get pods -n web-space --field-selector=status.phase=Running -o name | xargs kubectl delete -n web-space
