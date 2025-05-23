@@ -32,7 +32,10 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag krystine825/expense_tracker:latest
 
-    - name: Push to the Docker hub
+
+
+
+    - name: Push to the Docker Hub
       run: docker push krystine825/expense_tracker:latest
   
   deploy:
