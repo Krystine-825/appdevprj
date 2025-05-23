@@ -4,14 +4,14 @@
 ![Example Image](screenshots/2-2.png) <br>
 ![Example Image](screenshots/3-3.png) <br>
 ![Example Image](screenshots/4-4.png) <br>
-![image](https://github.com/user-attachments/assets/4aac3a32-c22e-45ee-8494-574befd99219) <br>
+![image](https://github.com/user-attachments/assets/a1494ee4-ce3c-4791-96a8-4eedd5b1f414)<br>
 
 
 
 
 ## 🧱 **Kiến trúc tầng của hệ thống: Expense Tracker + CloudSQL + ArgoCD + Cloudflare + Kubernetes**
 
-
+![uddn-kiến trúc tầng new (1)](https://github.com/user-attachments/assets/95ae16ca-835d-4141-ba13-57d02a3f01e0)
 
 ---
 
@@ -32,7 +32,7 @@
 
 ## 🧭 **Sơ đồ kiến trúc tổng thể ứng dụng**
 
-
+![uddn-kiến trúc tổng thể](https://github.com/user-attachments/assets/855d02e5-b699-4f10-b0ff-5c3e687297eb)
 
 ---
 
